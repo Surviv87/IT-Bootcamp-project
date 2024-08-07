@@ -1,0 +1,446 @@
+Started by user Vit
+18:29:03 Connecting to https://api.github.com with no credentials, anonymous access
+18:29:03 GitHub throttling is disabled, which is not allowed for public GitHub usage, so ThrottleOnOver will be used instead. To configure a different rate limiting strategy, go to "GitHub API usage" under "Configure System" in the Jenkins settings.
+Obtained Jenkinsfile from 4169ab26d9c8300196e70a7db4c8c3ff639773ba
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/Kubernetes_CI-CD_main
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/Kubernetes_CI-CD_main/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/Surviv87/IT-Bootcamp-project.git # timeout=10
+Fetching without tags
+Fetching upstream changes from https://github.com/Surviv87/IT-Bootcamp-project.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.2'
+ > git fetch --no-tags --force --progress -- https://github.com/Surviv87/IT-Bootcamp-project.git +refs/heads/main:refs/remotes/origin/main # timeout=10
+Checking out Revision 4169ab26d9c8300196e70a7db4c8c3ff639773ba (main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 4169ab26d9c8300196e70a7db4c8c3ff639773ba # timeout=10
+Commit message: "fix_Jenkinsfile"
+ > git rev-list --no-walk 4169ab26d9c8300196e70a7db4c8c3ff639773ba # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of $KUBECONFIG or $CHAT_ID or $TOKEN
+[Pipeline] {
+[Pipeline] sh
++ git log -n 1 --format=%s 4169ab26d9c8300196e70a7db4c8c3ff639773ba
+[Pipeline] sh
++ git log -n 1 --format=%s 4169ab26d9c8300196e70a7db4c8c3ff639773ba
+[Pipeline] sh
++ git log -n 1 --format=%ae 4169ab26d9c8300196e70a7db4c8c3ff639773ba
+[Pipeline] sh
++ git rev-parse --short 4169ab26d9c8300196e70a7db4c8c3ff639773ba
+[Pipeline] sh
++ git log -n 1 --format=%s 4169ab26d9c8300196e70a7db4c8c3ff639773ba
+[Pipeline] sh
++ git log -n 1 --format=%ae 4169ab26d9c8300196e70a7db4c8c3ff639773ba
+[Pipeline] sh
++ git rev-parse --short 4169ab26d9c8300196e70a7db4c8c3ff639773ba
+[Pipeline] sh
++ git rev-parse --short 4169ab26d9c8300196e70a7db4c8c3ff639773ba
+[Pipeline] sh
++ git log -n 1 --format=%ae 4169ab26d9c8300196e70a7db4c8c3ff639773ba
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout Source)
+[Pipeline] git
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/Kubernetes_CI-CD_main/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/Surviv87/IT-Bootcamp-project # timeout=10
+Fetching upstream changes from https://github.com/Surviv87/IT-Bootcamp-project
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.2'
+ > git fetch --tags --force --progress -- https://github.com/Surviv87/IT-Bootcamp-project +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 4169ab26d9c8300196e70a7db4c8c3ff639773ba (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 4169ab26d9c8300196e70a7db4c8c3ff639773ba # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D main # timeout=10
+ > git checkout -b main 4169ab26d9c8300196e70a7db4c8c3ff639773ba # timeout=10
+Commit message: "fix_Jenkinsfile"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Lint Dockerfile)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ hadolint Dockerfile
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker build -t 992568741/astarosh .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 314B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:19-alpine3.16
+#2 DONE 0.9s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/9] FROM docker.io/library/node:19-alpine3.16@sha256:d73a7d0f2ec5d9c0f4b8aeb7768151e0a3283edba46f16adeec883ff703230cf
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 653B done
+#5 DONE 0.0s
+
+#6 [2/9] RUN apk update && apk --no-cache add curl=8.5.0-r0
+#6 CACHED
+
+#7 [7/9] COPY src src/
+#7 CACHED
+
+#8 [4/9] COPY check_http.sh .
+#8 CACHED
+
+#9 [8/9] COPY public public/
+#9 CACHED
+
+#10 [3/9] WORKDIR /react-app
+#10 CACHED
+
+#11 [5/9] COPY package.json .
+#11 CACHED
+
+#12 [6/9] COPY package-lock.json .
+#12 CACHED
+
+#13 [9/9] RUN chmod 777 check_http.sh && npm i
+#13 CACHED
+
+#14 exporting to image
+#14 exporting layers done
+#14 writing image sha256:3603e204dc5f5f1a70b9ef9199125cd77a8882f95031700f4d72f7018c8bf7b1 done
+#14 naming to docker.io/992568741/astarosh done
+#14 DONE 0.0s
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run Tests)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ docker run --rm 992568741/astarosh sh -c nohup npm run start & ./check_http.sh
+
+> jenkins-kubernetes-deployment@0.1.0 start
+> react-scripts start
+
+(node:28) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:28) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+Starting the development server...
+
+[0;33mOne of your dependencies, babel-preset-react-app, is importing the
+"@babel/plugin-proposal-private-property-in-object" package without
+declaring it in its dependencies. This is currently working because
+"@babel/plugin-proposal-private-property-in-object" is already in your
+node_modules folder for unrelated reasons, but it [1mmay break at any time[0;33m.
+
+babel-preset-react-app is part of the create-react-app project, [1mwhich
+is not maintianed anymore[0;33m. It is thus unlikely that this bug will
+ever be fixed. Add "@babel/plugin-proposal-private-property-in-object" to
+your devDependencies to work around this error. This will make this message
+go away.[0m
+  
+Compiled successfully!
+
+You can now view jenkins-kubernetes-deployment in the browser.
+
+  Local:            http://localhost:3000
+  On Your Network:  http://172.17.0.2:3000
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+
+webpack compiled successfully
+Success: The URL 'http:/localhost:3000' is reachable!
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Pushing Image)
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withDockerRegistry
+$ docker login -u als.brodeur@gmail.com -p ******** https://registry.hub.docker.com
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /var/jenkins_home/workspace/Kubernetes_CI-CD_main@tmp/66b11f44-439a-4d1a-ac67-889b26ee24bc/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credential-stores
+
+Login Succeeded
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker tag 992568741/astarosh registry.hub.docker.com/992568741/astarosh:reactapp
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker push registry.hub.docker.com/992568741/astarosh:reactapp
+The push refers to repository [registry.hub.docker.com/992568741/astarosh]
+ec383499ed61: Preparing
+8e26cc84652a: Preparing
+2941a56138e1: Preparing
+8ccc5c7c71a3: Preparing
+b89276a680ba: Preparing
+9d7b4af4c2d4: Preparing
+dc3e2c449831: Preparing
+ca796bd89bda: Preparing
+b1d550c21bbe: Preparing
+c7287bbe934c: Preparing
+659a6ef12ccb: Preparing
+5bc340f6d4f5: Preparing
+ca796bd89bda: Waiting
+b1d550c21bbe: Waiting
+c7287bbe934c: Waiting
+659a6ef12ccb: Waiting
+9d7b4af4c2d4: Waiting
+dc3e2c449831: Waiting
+5bc340f6d4f5: Waiting
+8e26cc84652a: Layer already exists
+ec383499ed61: Layer already exists
+8ccc5c7c71a3: Layer already exists
+b89276a680ba: Layer already exists
+2941a56138e1: Layer already exists
+dc3e2c449831: Layer already exists
+9d7b4af4c2d4: Layer already exists
+ca796bd89bda: Layer already exists
+b1d550c21bbe: Layer already exists
+c7287bbe934c: Layer already exists
+659a6ef12ccb: Layer already exists
+5bc340f6d4f5: Layer already exists
+reactapp: digest: sha256:0e711c7ac222988adb2437824b02afd1b4ff746d2ee7c9d8e6a4e04798e7275b size: 2828
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withDockerRegistry
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Validate k8s manifest)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ kubeconform deployment_dev.yaml deployment_prod.yaml
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (CI notification)
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [CHAT_ID, TOKEN]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ curl --location --request POST https://api.telegram.org/bot****/sendMessage --form text=--------------------------------------------------------------
+Branch(Version): main
+Last Message: fix_Jenkinsfile
+Author: vitoldius1987@gmail.com
+Commit: 4169ab2
+Kubernetes CI-CD/main All CI stages completed successfully! --form chat_id=****
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   964  100   497  100   467   1339   1258 --:--:-- --:--:-- --:--:--  2605
+{"ok":true,"result":{"message_id":78,"from":{"id":7277008539,"is_bot":true,"first_name":"Vit_bot","username":"Astarosh_bot"},"chat":{"id":****,"first_name":"Ast","type":"private"},"date":1723055372,"text":"--------------------------------------------------------------\nBranch(Version): main\nLast Message: fix_Jenkinsfile\nAuthor: vitoldius1987@gmail.com\nCommit: 4169ab2\nKubernetes CI-CD/main All CI stages completed successfully!","entities":[{"offset":123,"length":23,"type":"email"}]}}
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy app to k8s pre-prod namespace)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ kubectl apply -f deployment_dev.yaml
++ kubectl create namespace pre-production
+namespace/pre-production created
+deployment.apps/reactapp-dev created
+service/reactapp-service-dev created
+ingress.networking.k8s.io/reactapp-ingress-dev created
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Check HTTP avaiablity deploy app-dev)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] httpRequest
+HttpMethod: GET
+URL: http://reactappdev.test.local
+Sending request to url: http://reactappdev.test.local
+Response Code: HTTP/1.1 200 OK
+Success: Status code 200 is in the accepted range: 100:399
+[Pipeline] echo
+HTTP Response Code: 200
+[Pipeline] echo
+HTTP is available
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Check Dev Deployment Status)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ kubectl get deployment reactapp-dev -n pre-production -o jsonpath={.status.readyReplicas}
+[Pipeline] sh
++ kubectl get deployment reactapp-dev -n pre-production -o jsonpath={.spec.replicas}
+[Pipeline] echo
+Deployment Status: Ready Replicas: , Desired Replicas: 2
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Manual Approval)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] input
+Input requested
+Approved by Vit
+[Pipeline] echo
+Approved. Let's continue
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy app to k8s prod namespace)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ kubectl apply -f deployment_prod.yaml
++ kubectl create namespace production
+namespace/production created
+deployment.apps/reactapp-prod created
+service/reactapp-service-prod created
+ingress.networking.k8s.io/reactapp-ingress-prod created
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Check HTTP avaiablity deploy app-prod)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] httpRequest
+HttpMethod: GET
+URL: http://reactapp.test.local
+Sending request to url: http://reactapp.test.local
+Response Code: HTTP/1.1 200 OK
+Success: Status code 200 is in the accepted range: 100:399
+[Pipeline] echo
+HTTP Response Code: 200
+[Pipeline] echo
+HTTP is available
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Check Prod Deployment Status)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ kubectl get deployment reactapp-prod -n production -o jsonpath={.status.readyReplicas}
+[Pipeline] sh
++ kubectl get deployment reactapp-prod -n production -o jsonpath={.spec.replicas}
+[Pipeline] echo
+Deployment Status: Ready Replicas: , Desired Replicas: 2
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Delete app from k8s pre-prod namespace)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ kubectl delete -f deployment_dev.yaml
+deployment.apps "reactapp-dev" deleted
+service "reactapp-service-dev" deleted
+ingress.networking.k8s.io "reactapp-ingress-dev" deleted
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [CHAT_ID, TOKEN]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ curl --location --request POST https://api.telegram.org/bot****/sendMessage --form text=--------------------------------------------------------------
+Kubernetes CI-CD/main finish successfully! --form chat_id=****
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   671  100   321  100   350    923   1006 --:--:-- --:--:-- --:--:--  1933
+{"ok":true,"result":{"message_id":79,"from":{"id":7277008539,"is_bot":true,"first_name":"Vit_bot","username":"Astarosh_bot"},"chat":{"id":****,"first_name":"Ast","type":"private"},"date":1723055397,"text":"--------------------------------------------------------------\nKubernetes CI-CD/main finish successfully!"}}
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
