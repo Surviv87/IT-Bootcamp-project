@@ -23,7 +23,7 @@ pipeline {
         stage('Checkout Source') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Surviv87/test_project'
+                    url: 'https://github.com/Surviv87/IT-Bootcamp-project'
             }
         }
 
