@@ -81,7 +81,7 @@ pipeline {
             steps {
                 script {
                     // Deploy using kubectl  
-                    sh 'kubectl create namespace pre-production && kubectl apply -f deployment_dev.yaml'
+                    sh 'kubectl create namespace pre-production & kubectl apply -f deployment_dev.yaml'
                 }
             }
         }
@@ -137,7 +137,7 @@ pipeline {
             steps {
                 script {
                     // Deploy using kubectl  
-                    sh 'kubectl create namespace production && kubectl apply -f deployment_prod.yaml'
+                    sh 'kubectl create namespace production & kubectl apply -f deployment_prod.yaml'
                 }
             }
         }
