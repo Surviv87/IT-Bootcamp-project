@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reactapp-prod
+  namespace: production
+  labels:
+    app: react-app-prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: react-app-prod
+  template:
+    metadata:
+      labels:
+        app: react-app-prod
+    spec:
+      containers:
+      - name: react-app-prod
+        image: 992568741/astarosh:reactapp
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "echo '<h1>This is production environment!</h1>' >> /react-app/public/index.html"]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reactapp-service-prod
+  namespace: production
+spec:
+  selector:
+    app: react-app-prod
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: reactapp-ingress-prod
+  namespace: production
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: reactapp.test.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: reactapp-service-prod
+            port:
+              number: 3000
